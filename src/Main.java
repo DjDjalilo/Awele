@@ -1,45 +1,48 @@
+import java.util.Objects;
+import java.util.Scanner;
+
 enum Color{ROUGE,BLEU};
 
 
 public class Main {
     public static void main(String[] args) {
-        Position pos=new Position();
-        System.out.println(pos);
-    }
+        Scanner in = new Scanner(System.in);
+        Player player = new Player(true);
+        System.out.println(player.getBoard());
+        boolean gameStop = false;
+        int Case;
+        Color c = null;
+        if(player.ordiFirst)
+            player.getBoard().ordi_joue = true;
+        else
+            player.getBoard().ordi_joue = false;
+        while(!gameStop){
 
-
-    private boolean coupValide(Position pos_courante, boolean ordi_joue, int i) {
-        return true;
-    }
-
-    private int evaluation(Position pos_courante, boolean ordi_joue, int prof) {
-        return 0;
-    }
-
-    private boolean positionFinale(Position pos_courante, boolean ordi_joue, int prof) {
-        return true;
-    }
-    Position jouerCoup(Position pos_courante,boolean ordi_jouer,Color c,int i){
-        if(c==Color.ROUGE){
-
-           int r= pos_courante.getCase(i).getRouge();
-           int j=i;
-           while(r!=0){
-               j++;
-               pos_courante.getCase(j).getRouge();
-               r--;
-           }
-
-        }else{
-
+            if(player.isOrdi())
+            {
+                System.out.println("ORDI :");
+            }
+            else
+                System.out.println("JOUEUR :");
+            String[] words = in.nextLine().split("(?<=\\d)(?=\\D)");
+            Case = Integer.parseInt(words[0]);
+            if(Objects.equals(words[1], "B") || Objects.equals(words[1], "b"))
+                c = Color.BLEU;
+            else if(Objects.equals(words[1], "R") || Objects.equals(words[1], "r"))
+                c = Color.ROUGE;
+            if(player.getBoard().coupValide(player.getBoard().getCase(Case - 1),c, player.getBoard().ordi_joue,player.ordiFirst))
+                player.jouerCoup(Case,c);
+            else
+            {
+                System.out.println("COUP NON VALIDE");
+                break;
+            }
+            System.out.println(player.getBoard());
+            gameStop = player.getBoard().gameStop();
+            player.ordi = !player.isOrdi();
+            player.getBoard().ordi_joue = !player.getBoard().ordi_joue;
         }
 
-        return pos_courante;
-
     }
 
-    int getNextintCase(int i){
-        if (i==16) return 1;
-        else return i+1;
-    }
 }
