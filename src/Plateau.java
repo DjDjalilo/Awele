@@ -1,12 +1,19 @@
 public class Plateau {
     Case[] cases = new Case[16];
     public boolean ordi_joue;
-    int pions_pris_joueur=0;
-    int pions_pris_ordi=0;
+    public int pions_pris_joueur=0;
+    public int pions_pris_ordi=0;
     public Plateau(){
         for(int i=0;i<16;i++){
             cases[i]=new Case(2,2, i+1);
         }
+    }
+    public Plateau(Plateau p)
+    {
+        this.cases = p.cases;
+        this.ordi_joue = p.ordi_joue;
+        this.pions_pris_ordi = p.pions_pris_ordi;
+        this.pions_pris_joueur = p.pions_pris_joueur;
     }
     public boolean gameStop(){
         if(totalSeeds() < 8) {
