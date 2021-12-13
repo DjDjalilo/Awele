@@ -5,7 +5,7 @@ import java.util.Stack;
 public class Minimax {
 
     double scoreCoef=0.5;
-    double seedCoef=0.7;
+    double seedCoef=0.3;
 
 
     public double boardValue(Board board) {
@@ -24,22 +24,16 @@ public class Minimax {
             VALUE -= 1000;
 
         //cas intermidiares :
-        if(board.localScore > board.enemyScore) {
-            VALUE += ((board.localScore - board.enemyScore) / 32.0) * 10 * scoreCoef;
-
-            if(board.getOPSeeds()<board.getLocalSeeds()){
-                VALUE += ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
-            }
+        if(board.localScore > board.enemyScore)
+            VALUE += ((board.localScore - board.enemyScore)/32.0)*10*scoreCoef;
+        else
+            VALUE -= ((board.enemyScore - board.localScore)/32.0)*10*scoreCoef;
+        if(board.getOPSeeds()<board.getLocalSeeds()){
+            VALUE += ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
         }
-        else {
-            VALUE -= ((board.enemyScore - board.localScore) / 32.0) * 10 * scoreCoef;
-
-            if(board.getOPSeeds()>board.getLocalSeeds()){
-                VALUE += ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
-            }
-
+        else{
+            VALUE -= ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
         }
-
         if(board.getOpBlueseed()>0.9*board.getOPSeeds()){
             VALUE +=2;
         }else if (board.getLocalBlueseed()>0.9*board.getLocalSeeds()){
