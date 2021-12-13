@@ -4,22 +4,52 @@ import java.util.Stack;
 
 public class Minimax {
 
+    double scoreCoef=0.5;
+    double seedCoef=0.7;
+
+
     public double boardValue(Board board) {
         double VALUE = 0;
         if (board.localScore > 32) {
             VALUE += 1000;
 
-            System.out.println("winning");
+        }
+        if(board.localScore-board.enemyScore>0 && board.totalSeedsInBoard()<=8){
+            VALUE += 1000;
+        }
+        if(board.localScore-board.enemyScore<0 && board.totalSeedsInBoard()<=8){
+            VALUE -= 1000;
         }
         else if(board.enemyScore > 32)
             VALUE -= 1000;
-        if(board.localScore > board.enemyScore)
-            VALUE += (board.localScore * 1.2) - board.enemyScore;
-        else
-            VALUE += board.localScore - board.enemyScore;
+
+        //cas intermidiares :
+        if(board.localScore > board.enemyScore) {
+            VALUE += ((board.localScore - board.enemyScore) / 32.0) * 10 * scoreCoef;
+
+            if(board.getOPSeeds()<board.getLocalSeeds()){
+                VALUE += ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
+            }
+        }
+        else {
+            VALUE -= ((board.enemyScore - board.localScore) / 32.0) * 10 * scoreCoef;
+
+            if(board.getOPSeeds()>board.getLocalSeeds()){
+                VALUE += ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
+            }
+
+        }
+
+        if(board.getOpBlueseed()>0.9*board.getOPSeeds()){
+            VALUE +=2;
+        }else if (board.getLocalBlueseed()>0.9*board.getLocalSeeds()){
+            VALUE -=2;
+        }
+
+
+
         if(board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore > board.enemyScore)) {
             VALUE += 1000;
-            System.out.println("Starving");
 
         }
         else if (board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore < board.enemyScore))

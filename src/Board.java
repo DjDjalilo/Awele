@@ -17,6 +17,61 @@ public class Board implements Cloneable{
     public Board(){
 
     }
+
+    int getLocalSeeds(){
+        int t = 0;
+        if(first==First.Local){
+        for(int i=0;i<getCases().length;i=i+2) {
+            t += getCases()[i].totalSeeds();
+        }
+        }else {
+            for (int i = 1; i < this.getCases().length; i=i+2) {
+                t += getCases()[i].totalSeeds();
+            }
+        }
+        return t;
+    }
+    int getOpBlueseed(){
+        int t = 0;
+        if(first==First.Local){
+            for(int i=1;i<getCases().length;i=i+2) {
+                t += getCases()[i].getBlue();
+            }
+        }else {
+            for (int i = 0; i < this.getCases().length; i=i+2) {
+                t += getCases()[i].getBlue();
+            }
+        }
+        return t;
+    }
+    int getLocalBlueseed(){
+        int t = 0;
+        if(first==First.Local){
+            for(int i=0;i<getCases().length;i=i+2) {
+                t += getCases()[i].getBlue();
+            }
+        }else {
+            for (int i = 1; i < this.getCases().length; i=i+2) {
+                t += getCases()[i].getBlue();
+            }
+        }
+        return t;
+    }
+    int getOPSeeds(){
+        int t = 0;
+        if(first==First.Local){
+            for(int i=1;i<getCases().length;i=i+2) {
+                t += getCases()[i].totalSeeds();
+            }
+        }else {
+            for (int i = 0; i < this.getCases().length; i=i+2) {
+                t += getCases()[i].totalSeeds();
+            }
+        }
+        return t;
+    }
+
+
     public Board(First first){
         for(int i=0;i<16;i++){
             cases[i]=new Case(2,2, i+1);
