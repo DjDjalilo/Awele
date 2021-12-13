@@ -1,9 +1,11 @@
-import java.util.ArrayList;
-
 public class Player {
     boolean activePlayerLocal;
     Board board;
     First first;
+    public  boolean otherStarving = false;
+    public Player(){
+
+    }
     public Player(First first){
         if(first == First.Local)
             activePlayerLocal = true;
@@ -39,14 +41,26 @@ public class Player {
                     return false;
                 }
             }
+
         return true;
     }
-    public void jouerCoup(int caseToPlay,Color c){
+    public void jouerCoup(int caseToPlay, ColorSeeds c){
         if(c == null) {
             System.out.println("ERROR");
             return;
         }
         Sowing(fillCases(caseToPlay,c));
+        activePlayerLocal = !activePlayerLocal;
+        if(otherStarving())
+        {
+            if(isActivePlayerLocal()) {
+                getBoard().localScore += getBoard().totalSeedsInBoard();
+            }
+            else {
+                getBoard().enemyScore += getBoard().totalSeedsInBoard();
+            }
+            setOtherStarving(true);
+        }
     }
     public void Sowing(int caseSowing)
     {
@@ -60,15 +74,11 @@ public class Player {
             i = (i+16) % 16;
         }
     }
-    public int fillCases(int caseAjouer,Color c){
+    public int fillCases(int caseAjouer, ColorSeeds c){
         int j = caseAjouer-1;
         int defaultJ = j;
         int i = getBoard().getCases()[j].removeColor(c);
-        if(i == -1) {
-            System.out.println("ERROR");
-            return -1;
-        }
-        if(c == Color.ROUGE)
+        if(c == ColorSeeds.ROUGE)
         {
             while(i!=0)
             {
@@ -101,44 +111,6 @@ public class Player {
         }
     }
 
-    /*public ArrayList<int[]> getcoupValide(Board p){
-        ArrayList<int[]> result = new ArrayList<int[]>();
-        for(int i = 1; i <= p.getCases().length; i++){
-            if(p.coupValide(p.getCase(i - 1),Color.ROUGE, activePlayerLocal,ordiFirst)){
-                result.add(new int[]{i,0});
-            }
-            if(p.coupValide(p.getCase(i - 1),Color.BLEU, activePlayerLocal,ordiFirst)){
-                result.add(new int[]{i,1});
-            }
-
-        }
-        return  result;
-    }
-
-    public Arbre construireLarbre() {
-        Board board =this.board;
-        return new Arbre(board);
-    }
-
-    public Arbre buildTree() {
-        Board board =this.board;
-        Arbre a=new Arbre(board);
-        Board prev;
-             ArrayList<int[]> coupPossibles=getcoupValide(board);
-             prev = new Board(getBoard());
-             Color c;
-             for (int[] coup:coupPossibles){
-                 c=coup[1]==0?Color.ROUGE:Color.BLEU;
-                 jouerCoupPlateau(coup[0],c,prev);
-                 a.addFils(new Arbre(prev));
-                 prev = new Board(getBoard());
-
-        }
-        return  a;
-
-
-    }*/
-
     public First getFirst() {
         return first;
     }
@@ -161,5 +133,13 @@ public class Player {
 
     public Board getBoard() {
         return board;
+    }
+
+    public boolean isOtherStarving() {
+        return otherStarving;
+    }
+
+    public void setOtherStarving(boolean otherStarving) {
+        this.otherStarving = otherStarving;
     }
 }

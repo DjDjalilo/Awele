@@ -25,19 +25,17 @@ public class Case {
         if(this.blue==0 && this.rouge==0) return true ;
         else return false;
     }
-    public int removeColor(Color c){
-        if(c == Color.BLEU) {
+    public int removeColor(ColorSeeds c){
+        if(c == ColorSeeds.BLEU) {
             int i = getBlue();
             setBlue(0);
             return i;
         }
-        else if(c == Color.ROUGE){
+        else{
             int i = getRouge();
             setRouge(0);
             return i;
         }
-        else
-            return -1;
     }
     public void addRouge(){
         setRouge(getRouge()+1);
@@ -66,6 +64,6 @@ public class Case {
 
     @Override
     public String toString(){
-        return "("+this.blue+"B"+this.rouge+"R)";
+        return "("+ConsoleColors.BLUE+this.blue+"B"+ConsoleColors.RED+this.rouge+"R"+ConsoleColors.RESET+")";
     }
 }
