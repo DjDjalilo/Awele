@@ -22,8 +22,7 @@ public class Case {
         return i;
     }
     public boolean isEmpty(){
-        if(this.blue==0 && this.rouge==0) return true ;
-        else return false;
+        return this.blue == 0 && this.rouge == 0;
     }
     public int removeColor(ColorSeeds c){
         if(c == ColorSeeds.BLEU) {

@@ -17,30 +17,35 @@ public class Player {
         if(isActivePlayerLocal() && (getFirst() == First.Local)) {
             for (int i = 1; i < getBoard().getCases().length; i = i + 2) {
                 if (!getBoard().getCases()[i].isEmpty()) {
+
                     return false;
                 }
             }
         }
         else if(isActivePlayerLocal() && (getFirst() == First.Oppenent)) {
-            for (int i = 0; i < getBoard().getCases().length; i++) {
+
+            for (int i = 0; i < getBoard().getCases().length; i=i+2) {
                 if (!getBoard().getCases()[i].isEmpty()) {
                     return false;
                 }
             }
         }
         else if(!isActivePlayerLocal() && (getFirst() == First.Local)) {
-            for (int i = 0; i < getBoard().getCases().length; i++) {
+
+            for (int i = 0; i < getBoard().getCases().length; i=i+2) {
                 if (!getBoard().getCases()[i].isEmpty()) {
                     return false;
                 }
             }
         }
-        else if(!isActivePlayerLocal() && (getFirst() == First.Oppenent))
-            for(int i = 1; i < getBoard().getCases().length; i= i +2) {
-                if(!getBoard().getCases()[i].isEmpty()) {
+        else if(!isActivePlayerLocal() && (getFirst() == First.Oppenent)) {
+
+            for (int i = 1; i < getBoard().getCases().length; i = i + 2) {
+                if (!getBoard().getCases()[i].isEmpty()) {
                     return false;
                 }
             }
+        }
 
         return true;
     }
@@ -50,9 +55,11 @@ public class Player {
             return;
         }
         Sowing(fillCases(caseToPlay,c));
-        activePlayerLocal = !activePlayerLocal;
+
         if(otherStarving())
+
         {
+
             if(isActivePlayerLocal()) {
                 getBoard().localScore += getBoard().totalSeedsInBoard();
             }
@@ -61,6 +68,7 @@ public class Player {
             }
             setOtherStarving(true);
         }
+        activePlayerLocal = !activePlayerLocal;
     }
     public void Sowing(int caseSowing)
     {

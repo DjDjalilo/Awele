@@ -6,16 +6,22 @@ public class Minimax {
 
     public double boardValue(Board board) {
         double VALUE = 0;
-        if (board.localScore > 32)
+        if (board.localScore > 32) {
             VALUE += 1000;
+
+            System.out.println("winning");
+        }
         else if(board.enemyScore > 32)
             VALUE -= 1000;
         if(board.localScore > board.enemyScore)
             VALUE += (board.localScore * 1.2) - board.enemyScore;
         else
             VALUE += board.localScore - board.enemyScore;
-        if(board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore > board.enemyScore))
+        if(board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore > board.enemyScore)) {
             VALUE += 1000;
+            System.out.println("Starving");
+
+        }
         else if (board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore < board.enemyScore))
             VALUE -= 1000;
         return VALUE;
@@ -31,8 +37,10 @@ public class Minimax {
 
 
     public double alphaBeta(Board board, int depth, boolean isMaxPlayer, double alpha, double beta) {
-        if(depth == 0)
+        if(depth == 0){
             return boardValue(board);
+
+        }
         if(isMaxPlayer)
         {
             double highestSeenValue = Integer.MIN_VALUE;

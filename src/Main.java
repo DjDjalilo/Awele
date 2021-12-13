@@ -12,7 +12,8 @@ public class Main {
     public static void main(String[] args) {
         Minimax minimax = new Minimax();
         Scanner in = new Scanner(System.in);
-        Board board = new Board(First.Oppenent);
+        Board board = new Board(First.Local);
+        int depth;
         boolean gameStop = false;
         int Case;
         ColorSeeds c = null;
@@ -20,9 +21,11 @@ public class Main {
         while(!gameStop){
             System.out.println(board);
             if(board.getPlayer().isActivePlayerLocal()) {
+                int coup=board.coupValide().size();
+                depth = 6+(16-coup) / 4;
+                System.out.println("Coup valide : "+coup+" Depth : "+depth);
                 System.out.println("\n"+ConsoleColors.GREEN+"LOCAL TURN:"+ConsoleColors.RESET);
-
-                coups = board.bestMoveUsingAlphaBeta( 6,true,Integer.MIN_VALUE,Integer.MAX_VALUE, minimax);
+                coups = board.bestMoveUsingAlphaBeta( depth,true,Integer.MIN_VALUE,Integer.MAX_VALUE, minimax);
                 if(coups[1]==0) {
                     c = ColorSeeds.ROUGE;
                     System.out.println(ConsoleColors.CYAN+"Local will play : "+ coups[0] + " RED\n");

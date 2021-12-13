@@ -33,7 +33,7 @@ public class Board implements Cloneable{
             boardAllocated.cases[i]=new Case(this.cases[i].blue,this.cases[i].rouge, i+1);
         }
         boardAllocated.first = this.first;
-        boardAllocated.player = new Player();
+        boardAllocated.player = new Player(boardAllocated.first);
         boardAllocated.player.activePlayerLocal = this.player.activePlayerLocal;
         boardAllocated.enemyScore = this.enemyScore;
         boardAllocated.localScore = this.localScore;
@@ -71,7 +71,7 @@ public class Board implements Cloneable{
             return true;
         }
         else if(getLocalScore() >= 33) {
-            System.out.println("Local Win with : "+ getEnemyScore()+" seed");
+            System.out.println("Local Win with : "+ getLocalScore()+" seed");
             return true;
         }
         else if(getEnemyScore() == 32 && getLocalScore() == 32) {
@@ -110,7 +110,7 @@ public class Board implements Cloneable{
 
     public int[] bestMoveUsingAlphaBeta(int depth, boolean isMaxPlayer, int alpha, int beta, Minimax minimax)
     {
-
+        System.out.println(localScore);
         long time = System.currentTimeMillis();
         int[] BestMove = null;
         double score;
@@ -120,12 +120,14 @@ public class Board implements Cloneable{
             for(int[] Move : coupValide())
             {
                 Board tempBoard = new Board();
+
                 tempBoard = copyBoard(tempBoard);
                 ColorSeeds c;
                 if(Move[1] == 0)
                     c = ColorSeeds.ROUGE;
                 else
                     c = ColorSeeds.BLEU;
+
                 tempBoard.getPlayer().jouerCoup(Move[0],c);
                 moveScore = minimax.alphaBeta(tempBoard,depth, false,alpha,beta);
                 score = Math.max(moveScore,bestMoveScore);
