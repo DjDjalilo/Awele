@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Minimax minimax = new Minimax();
         Scanner in = new Scanner(System.in);
-        Board board = new Board(First.Oppenent);
+        Board board = new Board(First.Local);
         int depth;
         boolean gameStop = false;
         int Case;

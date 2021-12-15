@@ -11,43 +11,34 @@ public class Minimax {
     public double boardValue(Board board) {
         double VALUE = 0;
         if (board.localScore > 32) {
-            VALUE += 1000;
+            VALUE += 10000;
 
         }
         if(board.localScore-board.enemyScore>0 && board.totalSeedsInBoard()<=8){
-            VALUE += 1000;
+            VALUE += 10000;
         }
         if(board.localScore-board.enemyScore<0 && board.totalSeedsInBoard()<=8){
-            VALUE -= 1000;
+            VALUE -= 10000;
         }
         else if(board.enemyScore > 32)
-            VALUE -= 1000;
+            VALUE -= 10000;
 
-        //cas intermidiares :
-        if(board.localScore > board.enemyScore)
-            VALUE += ((board.localScore - board.enemyScore)/32.0)*10*scoreCoef;
-        else
-            VALUE -= ((board.enemyScore - board.localScore)/32.0)*10*scoreCoef;
-        if(board.getOPSeeds()<board.getLocalSeeds()){
-            VALUE += ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
-        }
-        else{
-            VALUE -= ((board.getLocalSeeds() - board.getOPSeeds())/32.0)*10*seedCoef;
-        }
-        if(board.getOpBlueseed()>0.9*board.getOPSeeds()){
-            VALUE +=2;
-        }else if (board.getLocalBlueseed()>0.9*board.getLocalSeeds()){
-            VALUE -=2;
-        }
+        //cas intermidiare
+        VALUE+=(board.localScore-board.enemyScore)*100;
+        VALUE+=(board.getLocalSeeds()-board.getOPSeeds())*10;
+
+        //bleu prioritaires
+        VALUE+=(board.getOpBlueseed()>0.8*board.getOPSeeds())?5:0;
+        VALUE-=(board.getLocalBlueseed()>0.8*board.getLocalSeeds())?5:0;
 
 
 
         if(board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore > board.enemyScore)) {
-            VALUE += 1000;
+            VALUE += 10000;
 
         }
         else if (board.getPlayer().isOtherStarving() && board.getPlayer().activePlayerLocal && (board.localScore < board.enemyScore))
-            VALUE -= 1000;
+            VALUE -= 10000;
         return VALUE;
 
     }
